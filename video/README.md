@@ -19,3 +19,7 @@ avec les vrais livrables (plan, DOE généré, Excel de chiffrage rempli, dossie
 python3 src/music2.py music.wav
 python3 src/video2.py <ppt/media> <dossier_captures> 0 5400 video.mp4
 ```
+
+## PowerPoint équivalent
+
+`Presentation_Outils_N4_N5_N7_v2.pptx` — deck d’origine, constat sur 1 slide et 8 slides solutions (mêmes visuels que la vidéo), notes de présentation sur chaque slide.
