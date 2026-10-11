@@ -28,17 +28,17 @@ def stage(name, fn, lt, dur, inset=None):
 
 b5, b7, b4 = V2.N5.beats, V2.N7.beats, V2.N4.beats
 ST = {
-    'n5a': stage('n5a', b5[0][3], 0, 8),
-    'n5b': stage('n5b', b5[1][3], 12, 8),
-    'n5c': stage('n5c', V2.p_doe(['doe5_1.png', 'doe5_3.png', 'doe5_4.png', 'doe5_13.png', 'doe5_16.png', 'doe5_17.png', 'doe5_18.png',
-                                  'doe5_19.png', 'doe5_21.png', 'doe5_22.png', 'doe5_23.png', 'doe5_25.png', 'doe5_26.png', 'doe5_28.png'],
-                                 'DOE RIA généré automatiquement', 37, 'doe5_1.png'), 8.45, 12),
+    'n5a': stage('n5a', b5[0][3], 0, 10),
+    'n5b': stage('n5b', b5[1][3], 0, 8),
+    'n5c': stage('n5c', V2.p_fps_collage, 0, 10),
+    'n5d': stage('n5d', b5[3][3], 8.45, 12),
     'n7a': stage('n7a', V2.p_doc('doe7_2.png', (0.22, 0.15, 0.78, 0.75), cap="Plan d'implantation et câblage"), 0, 8,
                  inset=('doe7_5.png', (0.0, 0.0, 0.55, 0.42))),
     'n7b': stage('n7b', V2.p_doe(['doe7_%d.png' % i for i in range(1, 14)], 'DOE détection généré en 1 clic', 13, 'doe7_1.png'), 3.65, 7.2),
-    'n7c': stage('n7c', b7[2][3], 9, 13),
-    'n4a': stage('n4a', b4[0][3], 12.95, 13),
-    'n4b': stage('n4b', V2.p_doc('tech_2.png', None, cap='Plan technicien – remplacement'), 0, 13),
+    'n7c': stage('n7c', b7[2][3], 9, 14),
+    'n4a': stage('n4a', b4[0][3], 11.95, 12),
+    'n4b': stage('n4b', b4[1][3], 0, 10),
+    'n4c': stage('n4c', V2.p_doc('tech_2.png', None, cap='Plan technicien – remplacement'), 0, 10),
 }
 
 def cover_crop(name, box, w_in, h_in, out):
@@ -169,19 +169,21 @@ def sol(prefix, label, name, beats, k, img, note):
     notes(sl, note)
     return sl
 
-N5n = ["Plan propre, étude nickel : l'implantation se fait sur le plan du client mis à l'échelle ; la couverture des RIA est calculée, murs et obstacles compris, avec des alertes en direct. Fini la cordelette.",
-       "Note de calcul intégrée (HydraRIA) : pertes de charge, pression au RIA le plus défavorisé, temps d'arrivée d'eau, et la vue isométrique du réseau. Plus besoin de Fathom (4 000 €/an).",
+N5n = ["Plan propre, étude professionnelle : l'implantation se fait sur le plan du client mis à l'échelle ; la couverture des RIA est calculée, murs et obstacles compris, avec des alertes en direct. Fini la cordelette.",
+       "Vue isométrique du réseau et note de calcul intégrée (HydraRIA) : pertes de charge, pression au RIA le plus défavorisé, temps d'arrivée d'eau. Plus besoin de Fathom (4 000 €/an).",
+       "Vue FPS : on se déplace en 3D dans le bâtiment, le long du réseau, jusqu'à la source d'eau et au surpresseur, comme sur site.",
        "Le point fort : le DOE se génère tout seul. Réception, plan d'implantation, plan isométrique et note de calcul, fiches techniques : 37 pages réunies par l'outil."]
-N7n = ["Plan propre, étude nickel : paramètres R7 par local, implantation des détecteurs, câblage et synoptique dans le même outil.",
+N7n = ["Plan propre, étude professionnelle : paramètres R7 par local, implantation des détecteurs, câblage et synoptique dans le même outil.",
        "Le DOE en 1 clic : le dossier complet (plans par niveau, synoptique, bilan de puissance) est produit directement à partir de l'étude.",
        "Le point fort : le fichier Excel de chiffrage Eurofeu se remplit automatiquement avec les quantités de l'étude. Le chiffrage est prêt sans ressaisie."]
 N4n = ["Le dossier d'étude N4 Eurofeu se complète automatiquement : pochette, caractéristiques de l'établissement, audit de sécurité R4, relevé sur site. Le même rendu pour tous les commerciaux.",
+       "Le plan de l'étude : la dotation R4 est calculée et posée sur le plan du site, chaque appareil numéroté.",
        "Le plan technicien est propre et numéroté : les appareils à remplacer, à réformer ou à ajouter sont repérés sur le plan avec la liste correspondante. Le technicien sait exactement où intervenir."]
 
 new = [constat()]
-for k, key in enumerate(['n5a', 'n5b', 'n5c']): new.append(sol('N5 · RIA', 'N5 · RIA', 'Implantation RIA Pro + HydraRIA', b5, k, ST[key], N5n[k]))
+for k, key in enumerate(['n5a', 'n5b', 'n5c', 'n5d']): new.append(sol('N5 · RIA', 'N5 · RIA', 'Implantation RIA Pro + HydraRIA', b5, k, ST[key], N5n[k]))
 for k, key in enumerate(['n7a', 'n7b', 'n7c']): new.append(sol('N7 · Détection', 'N7 · DÉTECTION', 'DetectR7', b7, k, ST[key], N7n[k]))
-for k, key in enumerate(['n4a', 'n4b']): new.append(sol('N4 · Extincteurs', 'N4 · EXTINCTEURS', 'N4 Conceptor', b4, k, ST[key], N4n[k]))
+for k, key in enumerate(['n4a', 'n4b', 'n4c']): new.append(sol('N4 · Extincteurs', 'N4 · EXTINCTEURS', 'N4 Conceptor', b4, k, ST[key], N4n[k]))
 
 # ---------- speaker notes on kept slides ----------
 orig = list(prs.slides)[:20]
@@ -201,7 +203,7 @@ for n, t in NOTES.items(): notes(orig[n - 1], t)
 sldIdLst = prs.slides._sldIdLst
 ids = list(sldIdLst)
 o = ids[:20]; nw = ids[20:]
-order = o[0:4] + [nw[0]] + o[7:10] + nw[1:9] + o[13:20]
+order = o[0:4] + [nw[0]] + o[7:10] + nw[1:] + o[13:20]
 drop = [o[4], o[5], o[6], o[10], o[11], o[12]]
 for e in ids: sldIdLst.remove(e)
 for e in order: sldIdLst.append(e)

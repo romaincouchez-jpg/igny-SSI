@@ -23,3 +23,7 @@ python3 src/video2.py <ppt/media> <dossier_captures> 0 5400 video.mp4
 ## PowerPoint équivalent
 
 `Presentation_Outils_N4_N5_N7_v2.pptx` — deck d’origine, constat sur 1 slide et 8 slides solutions (mêmes visuels que la vidéo), notes de présentation sur chaque slide.
+
+## v3
+
+`Video_Outils_N4_N5_N7_v3.mp4` (3 min 42) et `Presentation_Outils_N4_N5_N7_v3.pptx` (25 slides) : « professionnel » au lieu de « nickel », chapitres 4 s, plus de temps sur les slides denses, vues ISO et FPS (N5), plan d’étude ajouté (N4). Musique : `src/music3.py`.

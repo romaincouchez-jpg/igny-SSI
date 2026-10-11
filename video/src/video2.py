@@ -336,35 +336,58 @@ def p_dossier(pages, per):
         d.rounded_rectangle((SW - 300, 22, SW - 30, 72), 25, fill=(232, 246, 238)); d.text((SW - 280, 33), msg, font=F(24, True), fill=GREEN)
     return f
 
-N5 = Sol(28, 'N5 · RIA', 'N5 · RIA', 'Implantation RIA Pro + HydraRIA', [
-    (0, 'Un plan propre, une étude nickel', "Implantation à l'échelle, couverture calculée", p_doc('doe5_13.png', (0.06, 0.15, 0.94, 0.75), 1.0, 1.25, 0.45, 0.6, cap="Plan d'implantation – DOE RIA")),
-    (8, 'Pertes de charge et vue isométrique', 'Note de calcul intégrée, plus de Fathom', p_hydra),
-    (16, 'Le DOE se génère tout seul', 'Réception, plans, fiches techniques : tout est réuni',
+def p_dark(name, cap, z1=1.08):
+    """Screenshot on a dark stage (vue isométrique)."""
+    def f(st, lt, dur):
+        st.paste(Image.new('RGB', st.size, (10, 12, 18)))
+        img = kb(contain_on(asset(name, maxside=2000), SW - 40, SH - 140, (10, 12, 18)), SW - 40, SH - 140, lt, dur, 1.0, z1)
+        st.paste(img, (20, 90))
+        ImageDraw.Draw(st).text((30, 28), cap, font=F(30, True), fill=WHITE)
+    return f
+
+def p_fps_collage(st, lt, dur):
+    """FPS views as a collage (used for the PowerPoint)."""
+    big = fit(asset('iso1.png', maxside=2000), 760, SH - 60, cover=True)
+    st.paste(big, (24, 30))
+    for j, n in enumerate(('iso2.png', 'iso3.png')):
+        sm = fit(asset(n, maxside=2000), SW - 24 - 800 - 24, (SH - 60 - 20) // 2, cover=True)
+        st.paste(sm, (24 + 760 + 20, 30 + j * ((SH - 60 - 20) // 2 + 20)))
+    caption(st, 'Vue FPS : visite du réseau en 3D', 44, SH - 90, F(22, True), NAVY)
+
+N5 = Sol(40, 'N5 · RIA', 'N5 · RIA', 'Implantation RIA Pro + HydraRIA', [
+    (0, 'Un plan propre, une étude professionnelle', "Implantation à l'échelle, couverture calculée", p_doc('doe5_13.png', (0.06, 0.15, 0.94, 0.75), 1.0, 1.25, 0.45, 0.6, cap="Plan d'implantation – DOE RIA")),
+    (10, 'Vue isométrique et pertes de charge', 'Réseau en 3D, note de calcul HydraRIA intégrée', p_dark('iso4.png', 'Vue isométrique du réseau RIA')),
+    (18, 'Vue FPS : visite du réseau en 3D', 'Se déplacer dans le bâtiment comme sur site', p_seq([
+        (('iso1.png', None, 1.0, 1.08, 0.5, 0.5, 'Vue FPS – déplacement libre'), {'cover': True, 'margin': 0}),
+        (('iso2.png', None, 1.0, 1.08, 0.5, 0.5, 'Vue FPS – le long du réseau'), {'cover': True, 'margin': 0}),
+        (('iso3.png', None, 1.0, 1.08, 0.5, 0.5, 'Vue FPS – source d\'eau et surpresseur'), {'cover': True, 'margin': 0})], 3.4)),
+    (28, 'Le DOE se génère tout seul', 'Réception, plans, fiches techniques : tout est réuni',
      p_doe(['doe5_1.png', 'doe5_3.png', 'doe5_4.png', 'doe5_13.png', 'doe5_16.png', 'doe5_17.png', 'doe5_18.png', 'doe5_19.png', 'doe5_21.png',
             'doe5_22.png', 'doe5_23.png', 'doe5_25.png', 'doe5_26.png', 'doe5_28.png'], 'Génération du DOE RIA…', 37, 'doe5_1.png'))])
 
-N7 = Sol(30, 'N7 · Détection', 'N7 · DÉTECTION', 'DetectR7', [
-    (0, 'Un plan propre, une étude nickel', 'Implantation, câblage et synoptique', p_seq([
+N7 = Sol(34, 'N7 · Détection', 'N7 · DÉTECTION', 'DetectR7', [
+    (0, 'Un plan propre, une étude professionnelle', 'Implantation, câblage et synoptique', p_seq([
         (('doe7_2.png', (0.22, 0.15, 0.78, 0.75), 1.0, 1.2, 0.3, 0.3, "Plan d'implantation et câblage"), {}),
-        (('doe7_5.png', (0.0, 0.0, 0.55, 0.42), 1.0, 1.1, 0.2, 0.3, 'Synoptique de détection'), {})], 4.0)),
-    (8, 'Le DOE en 1 clic', "Le dossier complet, directement à partir de l'étude",
+        (('doe7_5.png', (0.0, 0.0, 0.55, 0.42), 1.0, 1.1, 0.2, 0.3, 'Synoptique de détection'), {})], 5.0)),
+    (10, 'Le DOE en 1 clic', "Le dossier complet, directement à partir de l'étude",
      p_click('Générer le DOE', 1.2, p_doe(['doe7_%d.png' % i for i in range(1, 14)], 'Génération du DOE détection…', 13, 'doe7_1.png'))),
-    (17, 'Le chiffrage Eurofeu se remplit tout seul', 'Le fichier Excel Eurofeu complété automatiquement', p_excel)])
+    (20, 'Le chiffrage Eurofeu se remplit tout seul', 'Le fichier Excel Eurofeu complété automatiquement', p_excel)])
 
-N4 = Sol(26, 'N4 · Extincteurs', 'N4 · EXTINCTEURS', 'N4 Conceptor', [
+N4 = Sol(32, 'N4 · Extincteurs', 'N4 · EXTINCTEURS', 'N4 Conceptor', [
     (0, 'Le dossier N4 Eurofeu se complète tout seul', 'Pochette, établissement, audit R4, relevé',
-     p_dossier(['dn4_1.png', 'dn4_2.png', 'dn4_4.png', 'dn4_8.png', 'dn4_12.png'], 2.6)),
-    (13, 'Un plan technicien nickel pour intervenir', 'Appareils à remplacer repérés, liste prête', p_seq([
+     p_dossier(['dn4_1.png', 'dn4_2.png', 'dn4_4.png', 'dn4_8.png', 'dn4_12.png'], 2.4)),
+    (12, "Le plan de l'étude", 'Dotation R4 numérotée, posée sur le plan du site', p_doc('n4_2.png', None, 1.0, 1.15, 0.5, 0.45, cap="Plan d'implantation – étude N4")),
+    (22, 'Un plan technicien professionnel pour intervenir', 'Appareils à remplacer repérés, liste prête', p_seq([
         (('tech_2.png', None, 1.0, 1.08, 0.5, 0.5, 'Plan technicien – remplacement'), {}),
-        (('tech_2.png', (0.0, 0.12, 0.62, 0.98), 1.0, 1.35, 0.6, 0.55, 'Appareils repérés sur le plan'), {})], 6.5))])
+        (('tech_2.png', (0.0, 0.12, 0.62, 0.98), 1.0, 1.35, 0.6, 0.55, 'Appareils repérés sur le plan'), {})], 5.0))])
 
-SCENES = [Intro(8), Origine(10),
+SCENES = [Intro(8), Origine(12),
           Divider(4, 'DIV_CONSTAT-image-1.jpeg', '1.', ['LE CONSTAT :', 'LES DIFFICULTÉS', 'DU TERRAIN']),
-          Constat(24), Freins(8),
+          Constat(30), Freins(10),
           Divider(4, 'DIV_SOLUTIONS-image-1.jpeg', '2.', ['LES SOLUTIONS :', 'TROIS OUTILS', 'MÉTIER']),
-          Logique(10), N5, N7, N4,
+          Logique(12), N5, N7, N4,
           Divider(4, 'DIV_APPORT-image-1.jpeg', '3.', ["L'APPORT POUR", 'EUROFEU']),
-          Gains(12), Valeur(7), Fin(5)]
+          Gains(16), Valeur(10), Fin(6)]
 V.SCENES[:] = SCENES
 V.STARTS[:] = []
 acc = 0
