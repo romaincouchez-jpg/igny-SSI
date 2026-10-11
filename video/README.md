@@ -9,3 +9,13 @@ python3 src/music.py music.wav
 python3 src/video.py <ppt/media> 0 3600 video.mp4
 ffmpeg -i video.mp4 -i music.wav -c:v copy -c:a aac -shortest final.mp4
 ```
+
+## v2 (3 min)
+
+`Video_Outils_N4_N5_N7_v2.mp4` — constat sur un seul slide avec les vrais plans « avant », puis une scène par outil
+avec les vrais livrables (plan, DOE généré, Excel de chiffrage rempli, dossier N4, plan technicien).
+
+```
+python3 src/music2.py music.wav
+python3 src/video2.py <ppt/media> <dossier_captures> 0 5400 video.mp4
+```
